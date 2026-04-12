@@ -53,7 +53,7 @@ export function useSWR<T = unknown>(
 
     const p = fetcher()
       .then((data) => { _cache.set(key, { data, error: null, ts: Date.now() }); notify(key); })
-      .catch((err) => { _cache.set(key, { ...(_cache.get(key) ?? {}), error: err, ts: Date.now() }); notify(key); })
+      .catch((err) => { _cache.set(key, { data: undefined, ...(_cache.get(key) ?? {}), error: err, ts: Date.now() }); notify(key); })
       .finally(()  => _flying.delete(key));
     _flying.set(key, p);
     return p;
@@ -100,6 +100,6 @@ export function useSWR<T = unknown>(
     error:      (hit as any).error,
     isLoading:  !(hit as any).data && !(hit as any).error,
     mutate,
-    revalidate: doFetch,
+    revalidate: async (force?: boolean) => { await doFetch(force); },
   };
 }

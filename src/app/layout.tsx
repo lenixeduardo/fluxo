@@ -1,10 +1,7 @@
 import type { Metadata, Viewport } from "next";
-import { DM_Sans } from "next/font/google";
 import { AuthProvider }   from "@/contexts/AuthContext";
 import { ToastProvider }  from "@/contexts/ToastContext";
 import "./globals.css";
-
-const dmSans = DM_Sans({ subsets: ["latin"], weight: ["400","500","600","700","800"] });
 
 export const metadata: Metadata = {
   title:       "Fluxo — Finanças Pessoais",
@@ -24,7 +21,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR">
-      <body className={dmSans.className}>
+      <body>
         <ToastProvider>
           <AuthProvider>
             {children}
